@@ -1,32 +1,54 @@
-import React, { Component } from 'react';
-import { View, Text} from 'react-native';
-import Comp from './comp'
+import React, { useState }  from 'react';
+import { View, Text, Image, StyleSheet, ImageBackground, Button } from 'react-native';
 import Estilos from './estilos/estilos.js';
-import Caixas from './Caixas.js'
+import Lp from './listaPlana';
 
-const fexibir = (vp1)=>{
-  if(vp1){
-    return(<Text>Curso de React Native</Text>)
-  }else{
-    return(<Text>-- -- --</Text>)
-  }
-}
+const imgBg1 = './assets/background.jpg'
+const imgBg2 = './assets/background2.jpg'
 
- export default class App1 extends Component{
+ export default function App1(){    
   
-   render(){
-     let exibir  = true
-     return(
-       
-       <View style={Estilos.container}>
-       <Caixas exibir={exibir}/>
-       <Comp curso={'Curso React Native'}  nota={"10"}/>
-       <Comp curso={'Curso C#'} nota={"07"}/>
-       <Comp curso={'Curso Javascript'} nota={"05"}/>
-       <Comp curso={'Curso Java'} nota={"08"} />
-         <Text style={Estilos.textoTitulo}>Texto vermelho e fonte 20</Text>
-         {fexibir(exibir)}
+     const [ligado,setLigado] = useState(true)
+
+     return(       
+       <View style={Estilos.container}>     
+       <Button
+         title={ligado?'Desligar':'Ligar'}
+         onPress={()=>setLigado(!ligado)}
+       />
+     {ligado ?
+       <ImageBackground source={require(imgBg1)} style={estilos.ImgFundo}>
+            <View style={estilos.cont2}>
+               <Lp/>
+            </View>
+         </ImageBackground>   :
+         <ImageBackground source={require(imgBg2)} style={estilos.ImgFundo}>
+            <View style={estilos.cont2}>
+               <Lp/>
+            </View>
+         </ImageBackground> 
+      }
+        
        </View>
      )
-   }
+   
  }
+
+ const estilos = StyleSheet.create({
+   logo:{
+     width:'100%',
+    resizeMode:'cover',
+    marginTop:330
+   },
+   ImgFundo:{
+     flex:1,
+     resizeMode:'cover',
+     width:'100%',
+    
+   },
+   cont2:{
+     padding:10,
+     flex:1,
+     justifyContent:'center',
+   }
+ }) 
