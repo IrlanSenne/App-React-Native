@@ -1,34 +1,72 @@
 import React, { useState }  from 'react';
-import { View, Text, Image, StyleSheet, ImageBackground, Button } from 'react-native';
-import Estilos from './estilos/estilos.js';
+import { View,
+        Switch,
+        StyleSheet,
+        ImageBackground,
+        ActivityIndicator,
+        StatusBar,
+        Button  ,
+        SafeAreaView
+     } from 'react-native';
 import Lp from './listaPlana';
+import CxTx from './CaixaDeTexto';
+import Toque from './toque';
+import Modal from './Modal';
 
 const imgBg1 = './assets/background.jpg'
-const imgBg2 = './assets/background2.jpg'
 
  export default function App1(){    
   
      const [ligado,setLigado] = useState(true)
+     const toggleLigado = ()=>setLigado(!ligado)
+     const [barra,setBarra] = useState('blue')
+
+     const mudarCorBarra= ()=>{
+      setBarra('red')
+     }
+
 
      return(       
-       <View style={Estilos.container}>     
-       <Button
-         title={ligado?'Desligar':'Ligar'}
-         onPress={()=>setLigado(!ligado)}
-       />
+       <View style={{flex: 1,backgroundColor:'#fff',padding:20, color:'#eee'}}>   
+       {/* <ScrollView style={{backgroundColor:'#4155af',padding:20}}>   */}
+      <Switch
+        trackColor={{false:'#430000',true:'#00de00'}}
+        thumbColor={ligado ? '#0f0' : '#f00'}
+        value={ligado}
+        onValueChange={toggleLigado}
+      />
      {ligado ?
        <ImageBackground source={require(imgBg1)} style={estilos.ImgFundo}>
             <View style={estilos.cont2}>
                <Lp/>
             </View>
-         </ImageBackground>   :
-         <ImageBackground source={require(imgBg2)} style={estilos.ImgFundo}>
-            <View style={estilos.cont2}>
-               <Lp/>
-            </View>
-         </ImageBackground> 
+         </ImageBackground>   : <SafeAreaView
+         barStyle='default'
+         backgroundColor='rgba(45,150,78,0.3)'
+         >
+         
+         <StatusBar
+             backgroundColor={barra}
+             barStyle='default'
+             hidden={false}
+             animated={true} 
+             networkActivityIndicatorVisible={true}
+             translucent={true}
+             showHideTransition='fade'
+         />
+        <CxTx/>
+        <ActivityIndicator size="large" color="#fe5de0" />
+        <Toque/>
+        <Modal/>
+        <Button
+          title='Mudar cor'
+          onPress={mudarCorBarra}
+        />
+
+        </SafeAreaView>
       }
-        
+      {/* </ScrollView> */}
+      
        </View>
      )
    
