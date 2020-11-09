@@ -15,6 +15,10 @@ function Vinhos({navigation}){
       title='Ver sobremesas'
       onPress={()=>navigation.navigate('Sobremesa')}
     />
+     <Button
+      title='Pratos'
+      onPress={()=>navigation.navigate('Pratos')}
+    />
       
     </View>
 
@@ -35,6 +39,38 @@ function Sobremesa({navigation}){
   )
 }
 
+function Pratos({navigation}){
+  return(
+    <View style={{flex:1,alignItems:'center', justifyContent:'center'}}>
+    <Text>Pratos</Text>
+    <Button
+      title='Carnes'
+      onPress={()=>navigation.navigate('Carne',{
+        menu:10, tipo:'vitela'
+      })}
+    />
+    </View>
+
+
+  )
+}
+function Carne({route,navigation}){
+  const {menu}=route.params
+  const {tipo}=route.params
+  return(
+    <View style={{flex:1,alignItems:'center', justifyContent:'center'}}>
+    <Text>Carne</Text>
+    <Text>Valor menu: {menu}</Text>
+    <Text>Prato {tipo}</Text>
+    <Button
+      title='Ver Vinhos'
+      onPress={()=>navigation.navigate('Vinhos')}
+    />
+    </View>
+
+
+  )
+}
  function App1(){    
   
      return(       
@@ -87,6 +123,16 @@ function Sobremesa({navigation}){
           <Pilha.Screen
           name='Sobremesa'
           component={Sobremesa}
+          
+        />
+         <Pilha.Screen
+          name='Pratos'
+          component={Pratos}
+          
+        />
+         <Pilha.Screen
+          name='Carne'
+          component={Carne}
           
         />
       </Pilha.Navigator>
