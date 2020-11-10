@@ -1,24 +1,17 @@
 import React, { useState }  from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import { View, StyleSheet, Text, Button} from 'react-native';
 
 
-const Pilha = createStackNavigator();
+const Pilha = createBottomTabNavigator();
 
 function Vinhos({navigation}){
   return(
     <View style={{flex:1,alignItems:'center', justifyContent:'center'}}>
     <Text>Vinhos</Text>
-    <Button
-      title='Ver sobremesas'
-      onPress={()=>navigation.navigate('Sobremesa')}
-    />
-     <Button
-      title='Pratos'
-      onPress={()=>navigation.navigate('Pratos')}
-    />
+  
       
     </View>
 
@@ -118,11 +111,29 @@ function Carne({route,navigation}){
         <Pilha.Screen
           name='Vinhos'
           component={Vinhos}
+          options={{
+            headerStyle:{
+              backgroundColor:'#620104'
+            },
+            headerTintColor:'#fff',
+            headerTitleStyle:{
+              fontWeight:'bold'
+            },
+            title:'Vinhos ',
+            headerRight:()=>{
+              <Button
+                title='Lista'
+                color='#fff'
+                onPress={()=>alert('App em manutenção')}
+              />
+            }
+            }}
          
         />
           <Pilha.Screen
           name='Sobremesa'
           component={Sobremesa}
+         
           
         />
          <Pilha.Screen
