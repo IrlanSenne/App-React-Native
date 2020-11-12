@@ -1,156 +1,94 @@
-import React, { useState }  from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
-import { View, StyleSheet, Text, Button} from 'react-native';
+import React, {useState}  from 'react';
+import { View, StyleSheet, Text, TouchableHighlight, SafeAreaView, TextInput} from 'react-native';
 
 
-const Pilha = createBottomTabNavigator();
+export default function calcimc(){
 
-function Vinhos({navigation}){
-  return(
-    <View style={{flex:1,alignItems:'center', justifyContent:'center'}}>
-    <Text>Vinhos</Text>
+  const [peso,setPeso]=useState(0)
+  const [altura,setAltura]=useState(0)
+  const [resultado,setResultado]=useState(0)
+
+  const calcImc = ()=>{
+    if(peso == 0 || !peso) {
+      alert('Informe o peso')
+
+      return
+    } 
+    if(altura == 0 || !altura) {
+      alert('Informe a altura')
+      return
+    } 
+
+    const r=peso / (Math.pow(altura,2))
+    setResultado(r.toFixed(1))
+  }
   
-      
-    </View>
 
-  )
-}
-
-function Sobremesa({navigation}){
   return(
-    <View style={{flex:1,alignItems:'center', justifyContent:'center'}}>
-    <Text>Sobremesa</Text>
-    <Button
-      title='Ver lista de vinhos'
-      onPress={()=>navigation.navigate('Vinhos')}
-    />
+    <SafeAreaView style={estilos.corpo}>
+    <View style={estilos.bloco}>
+      <Text>Calculadora de IMC</Text>
     </View>
-
-
+      <View style={estilos.bloco}>
+      <Text>Informe seu peso: </Text>
+        <TextInput
+          style={estilos.txt}
+          autoFocus={true}
+          keyboardType={'numeric'}
+          value={peso}
+          onChangeText={text=>setPeso(text)}
+        ></TextInput>
+      </View>
+      <View style={estilos.bloco}>
+      <Text>Informe sua altura: </Text>
+        <TextInput
+          style={estilos.txt}
+          autoFocus={false}
+          keyboardType={'numeric'}
+          value={altura}
+          onChangeText={text=>setAltura(text)}
+        ></TextInput>
+      </View>
+      <View style={estilos.bloco}>
+      <TouchableHighlight
+          onPress={calcImc}
+          style={estilos.btnCalc}
+      >
+        <Text style={estilos.txtBtn}>Calcular IMC</Text>
+      </TouchableHighlight>
+      </View>
+      <View style={estilos.bloco}>     
+        <Text>Resultado: {resultado}</Text>     
+      </View>
+    </SafeAreaView>
   )
 }
 
-function Pratos({navigation}){
-  return(
-    <View style={{flex:1,alignItems:'center', justifyContent:'center'}}>
-    <Text>Pratos</Text>
-    <Button
-      title='Carnes'
-      onPress={()=>navigation.navigate('Carne',{
-        menu:10, tipo:'vitela'
-      })}
-    />
-    </View>
-
-
-  )
-}
-function Carne({route,navigation}){
-  const {menu}=route.params
-  const {tipo}=route.params
-  return(
-    <View style={{flex:1,alignItems:'center', justifyContent:'center'}}>
-    <Text>Carne</Text>
-    <Text>Valor menu: {menu}</Text>
-    <Text>Prato {tipo}</Text>
-    <Button
-      title='Ver Vinhos'
-      onPress={()=>navigation.navigate('Vinhos')}
-    />
-    </View>
-
-
-  )
-}
- function App1(){    
-  
-     return(       
-    //    <View style={{flex: 1,backgroundColor:'#fff',padding:20, color:'#eee'}}>   
-    //    {/* <ScrollView style={{backgroundColor:'#4155af',padding:20}}>   */}
-    //   <Switch
-    //     trackColor={{false:'#430000',true:'#00de00'}}
-    //     thumbColor={ligado ? '#0f0' : '#f00'}
-    //     value={ligado}
-    //     onValueChange={toggleLigado}
-    //   />
-    //  {ligado ?
-    //    <ImageBackground source={require(imgBg1)} style={estilos.ImgFundo}>
-    //         <View style={estilos.cont2}>
-    //            <Lp/>
-    //         </View>
-    //      </ImageBackground>   : <SafeAreaView
-    //      barStyle='default'
-    //      backgroundColor='rgba(45,150,78,0.3)'
-    //      >
-         
-    //      <StatusBar
-    //          backgroundColor={barra}
-    //          barStyle='default'
-    //          hidden={false}
-    //          animated={true} 
-    //          networkActivityIndicatorVisible={true}
-    //          translucent={true}
-    //          showHideTransition='fade'
-    //      />
-    //     <CxTx/>
-    //     <ActivityIndicator size="large" color="#fe5de0" />
-    //     <Toque/>
-    //     <Modal/>
-    //     <Button
-    //       title='Mudar cor'
-    //       onPress={mudarCorBarra}
-    //     />
-
-    //     </SafeAreaView>
-    //   }
-    //   {/* </ScrollView> */}
-    <NavigationContainer>
-      <Pilha.Navigator>
-        <Pilha.Screen
-          name='Vinhos'
-          component={Vinhos}
-          options={{
-            headerStyle:{
-              backgroundColor:'#620104'
-            },
-            headerTintColor:'#fff',
-            headerTitleStyle:{
-              fontWeight:'bold'
-            },
-            title:'Vinhos ',
-            headerRight:()=>{
-              <Button
-                title='Lista'
-                color='#fff'
-                onPress={()=>alert('App em manutenção')}
-              />
-            }
-            }}
-         
-        />
-          <Pilha.Screen
-          name='Sobremesa'
-          component={Sobremesa}
-         
-          
-        />
-         <Pilha.Screen
-          name='Pratos'
-          component={Pratos}
-          
-        />
-         <Pilha.Screen
-          name='Carne'
-          component={Carne}
-          
-        />
-      </Pilha.Navigator>
-    </NavigationContainer>
-    
-     )
-   
- }
- export default App1
-  
+const estilos = StyleSheet.create({
+  btnCalc:{
+    backgroundColor:'#e00',
+    justifyContent:'center',
+    alignItems:'center',
+    padding:10 ,
+    borderRadius:10
+  },
+  txtBtn:{
+    fontSize:15,
+    textTransform:'uppercase',
+    color:'#eee'
+  },
+  bloco:{
+    marginBottom:20
+  },
+  corpo:{
+    padding:5
+  },
+  txt:{
+    width:'100%',
+    borderWidth:1,
+    borderColor:'#000',
+    padding:10,
+    borderRadius:10,
+    margin:10
+  }
+})
